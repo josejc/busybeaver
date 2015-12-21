@@ -5,7 +5,7 @@ My first repository, try to translate implementation of 'busy-beaver.c' to Go la
 Try step by step, everyday a little...
 
 * busy-beaver.c: 	Source code original from "Computerphyle"
-* turing.go:		Source code from examples of Go
+* busybeaver.go:    Source code in Go ;)
 * fitxers.pdf: 		Survey of implementations and case studies of Busy Beavers
 
 More information:

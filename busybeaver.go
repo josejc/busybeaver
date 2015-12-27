@@ -6,7 +6,7 @@ import (
 )
 
 // Constants
-const lenght = 25
+const lenght_tape = 25
 
 // Structs
 // -State is equivalent a 'ncard' of computerphile
@@ -14,6 +14,11 @@ type state struct {
 	c_wr   byte // new character to write in the tape
 	shift  byte // left or right
 	nstate int  // next state
+}
+
+type tape struct {
+	t []byte
+	h int // head position
 }
 
 // Create new busybeaver (turing machine) whith selection of one predefined
@@ -38,14 +43,33 @@ func printbb(bb [][2]string) {
 
 }
 
+func runbb(bb [][2]string, tp tape) {
+	printt(tp)
+}
+
+// New tape
+func newt(tp tape, lenght int) {
+	tp.t = make([]byte, lenght)
+	tp.h = lenght / 2
+	printt(tp)
+}
+
 // Print tape
-func printt(t []byte) {
-	fmt.Println("Tape lenght: ", len(t))
-	fmt.Println(t)
-	//	for i := 0; i < len(t); i++ {
-	//		fmt.Print(i, ",", t[i], "-")
-	//	}
-	fmt.Println("...")
+func printt(tp tape) {
+	fmt.Println("Tape lenght: ", len(tp.t))
+	if len(tp.t) != 0 {
+		fmt.Println("Head position: ", tp.h)
+		fmt.Println(tp.t)
+		fmt.Print("[")
+		for i := 0; i < tp.h; i++ {
+			fmt.Print(". ")
+		}
+		fmt.Print("^ ")
+		for i := tp.h + 1; i < len(tp.t)-1; i++ {
+			fmt.Print(". ")
+		}
+		fmt.Println(".]")
+	}
 }
 
 // This helper will streamline our error checks below.
@@ -56,11 +80,11 @@ func check(e error) {
 }
 
 func main() {
-	var tape []byte
+	var t tape
 	var bb [][2]string
 
-	tape = make([]byte, lenght)
-	printt(tape)
+	newt(t, lenght_tape)
+	printt(t)
 	bb = newbb(0)
 	printbb(bb)
 	bb = newbb(-1)

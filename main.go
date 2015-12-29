@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	var bb [][2]string
+	var bb [][2]state
 	var t tape
 
 	newt(&t, LENGHT)
@@ -29,8 +29,10 @@ func main() {
 	fmt.Printf("Read character: %c.\n", readt(t))
 
 	// Code for implementation busybeavers and their execution
-	bb = newbb(0)
+	bb = newbb("tm1a")
 	printbb(bb)
-	bb = newbb(-1)
+	bb = newbb("x")
 	printbb(bb)
+	//bb = newbb(1)
+	//printbb(bb)
 }

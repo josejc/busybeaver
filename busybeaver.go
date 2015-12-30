@@ -73,6 +73,30 @@ func printbb(bb [][2]state) {
 
 }
 
-func runbb(bb [][2]state, tp tape) {
-	printt(tp)
+func runbb(bb [][2]state, t tape) error {
+	var s, ns int // Index of state in TuringMachine (busybeaver), s=actual state, ns=next state
+	var r byte    // byte read in tape
+	var e error
+
+	fmt.Println("BusyBeaver:")
+	printbb(bb)
+	fmt.Println("Initial tape is shown below: Note that head position at each step is marked by ^")
+	printt(t)
+	fmt.Println("Game start:")
+
+	// Solve the mismatch between byte and int for use in the diferent structures and variables ;)
+
+	ns = 1
+	for s = 1; s != 0; s = ns {
+		e = nil
+		r = readt(t)
+		writet(&t, bb[s][r].c_wr)
+		e = check(shiftt(&t, bb[s][r].shift))
+		if e == nil {
+			ns = bb[s][r].nstate
+		} else {
+			ns = 0
+		}
+	}
+	return e
 }

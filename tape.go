@@ -60,7 +60,7 @@ func writet(tp *tape, c byte) {
 // Shift the head of the tape
 func shiftt(tp *tape, shift byte) error {
 	switch shift {
-	case 'L', 'l':
+	case 'L', 'l', '0': // 0 definition in <computerphile>
 		{
 			if tp.h > 0 {
 				tp.h--
@@ -68,7 +68,7 @@ func shiftt(tp *tape, shift byte) error {
 				return errors.New("ERROR: No space on the left side of the tape")
 			}
 		}
-	case 'R', 'r':
+	case 'R', 'r', '1': // 1 definition in <computerphile>
 		{
 			if tp.h < LENGHT {
 				tp.h++
@@ -83,9 +83,10 @@ func shiftt(tp *tape, shift byte) error {
 }
 
 // This helper will streamline our error checks below.
-func check(e error) {
+func check(e error) error {
 	if e != nil {
 		//panic(e)
 		fmt.Println(e)
 	}
+	return e
 }

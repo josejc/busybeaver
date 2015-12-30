@@ -8,11 +8,12 @@ import (
 func main() {
 	var bb [][2]state
 	var t tape
+	var e error
 
 	newt(&t, LENGHT)
 	printt(t)
 
-	// Code for check implementation function for use the tape:
+	/* Code for check implementation function for use the tape:
 	check(shiftt(&t, 'l'))
 	writet(&t, '1')
 	printt(t)
@@ -27,12 +28,16 @@ func main() {
 	fmt.Printf("Read character: %c.\n", readt(t))
 	check(shiftt(&t, 'l'))
 	fmt.Printf("Read character: %c.\n", readt(t))
-
+	*/
 	// Code for implementation busybeavers and their execution
 	bb = newbb("tm1a")
 	printbb(bb)
 	bb = newbb("x")
 	printbb(bb)
-	//bb = newbb(1)
-	//printbb(bb)
+	e = runbb(bb, t)
+	if e != nil {
+		fmt.Println(e)
+	}
+	fmt.Println("Final tape config is:")
+	printt(t)
 }

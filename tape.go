@@ -18,6 +18,9 @@ type tape struct {
 // New tape
 func newt(tp *tape, lenght int) {
 	tp.t = make([]byte, lenght)
+	for i := range tp.t {
+		tp.t[i] = '0'
+	}
 	tp.h = lenght / 2
 }
 
@@ -59,6 +62,8 @@ func writet(tp *tape, c byte) {
 
 // Shift the head of the tape
 func shiftt(tp *tape, shift byte) error {
+
+	l := len(tp.t) - 1
 	switch shift {
 	case 'L', 'l', '0': // 0 definition in <computerphile>
 		{
@@ -70,7 +75,7 @@ func shiftt(tp *tape, shift byte) error {
 		}
 	case 'R', 'r', '1': // 1 definition in <computerphile>
 		{
-			if tp.h < LENGHT {
+			if tp.h < l {
 				tp.h++
 			} else {
 				return errors.New("ERROR: No space on the right side of the tape")

@@ -6,12 +6,15 @@ import (
 )
 
 func main() {
-	var bb [][2]state
+	var bb [][]state
 	var t tape
 	var e error
 
+	x := [2][3]int{{1, 2, 3}, {4, 5, 6}}
+	fmt.Println(x)
+
 	newt(&t, LENGHT)
-	printt(t)
+	//printt(t)
 
 	/* Code for check implementation function for use the tape:
 	check(shiftt(&t, 'l'))
@@ -30,13 +33,13 @@ func main() {
 	fmt.Printf("Read character: %c.\n", readt(t))
 	*/
 	// Code for implementation busybeavers and their execution
-	bb = newbb("tm1a")
-	printbb(bb)
-	bb = newbb("x")
-	printbb(bb)
-	e = runbb(bb, t)
+	bb = newbb("tm1d")
+	//printbb(bb)
+	//bb = newbb("x")
+	//printbb(bb)
+	e = runbb(bb, &t)
 	if e != nil {
-		fmt.Println(e)
+		fmt.Println("ERROR: Tape too short")
 	}
 	fmt.Println("Final tape config is:")
 	printt(t)

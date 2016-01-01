@@ -13,23 +13,23 @@ type state struct {
 }
 
 // Create new busybeaver (turing machine) whith selection of one predefined
-func newbb(s string) [][2]state {
-	var bstr [][2]string
-	var bb [][2]state
+func newbb(s string) [][]state {
+	var bstr [2][]string
+	var bb [][]state
 
 	// bstr for reuse the definitions of <computerphile>
 	switch s {
 	case "tm1a": // loops off to the right
-		bstr = [][2]string{{"0000", "1000"}, {"0111", "1111"}}
+		bstr = [2][]string{{"0000", "1000"}, {"0111", "1111"}}
 	case "tm1b": // loops off to the left
-		bstr = [][2]string{{"0000", "1000"}, {"0101", "1101"}}
+		bstr = [2][]string{{"0000", "1000"}, {"0101", "1101"}}
 	case "tm1c": //prints a single 1 and moves to the left
-		bstr = [][2]string{{"0000", "1000"}, {"0100", "1000"}}
+		bstr = [2][]string{{"0000", "1000"}, {"0100", "1000"}}
+	case "tm1d": //prints a single 1 and moves to the right
+		bstr = [2][]string{{"0000", "1000"}, {"0110", "1000"}}
+	case "tm2": // simple example of 2-state with optimal score of 4.
+		bstr = [2][]string{{"0000", "1000", "0112"}, {"1102", "1101", "1110"}}
 		/*
-			//prints a single 1 and moves to the right
-			char * tm1d [2] [2] = {"0000", "1000", "0110", "1000"};
-			// simple example of 2-state with optimal score of 4.
-			char * tm2 [3] [2] = {"0000", "1000", "0112", "1102", "1101", "1110"};
 			//classic 3-state BB producing a score of 6
 			char * tm3a [4] [2] = {"0000", "1000", "0102", "1113", "0111", "1102", "0112", "1100"};
 			//another 3-state BB for sigma ?
@@ -42,14 +42,15 @@ func newbb(s string) [][2]state {
 			char * tm4 [5] [2] = {"0000", "1000", "0112", "1102", "0101", "1003", "0110", "1104", "0114", "1011" };
 		*/
 	}
+	fmt.Println(len(bstr))
 	if len(bstr) > 0 {
-		bb = make([][2]state, len(bstr))
+		bb = make([][]state, len(bstr))
 		for i := 0; i < len(bstr); i++ {
-			bb[i][0] = bstr2bb(bstr[i][0])
-			bb[i][1] = bstr2bb(bstr[i][1])
+			bb[0][i] = bstr2bb(bstr[0][i])
+			bb[1][i] = bstr2bb(bstr[1][i])
 		}
 	} else {
-		bb = make([][2]state, 0)
+		bb = make([][]state, 0)
 	}
 	return bb
 }
@@ -65,7 +66,7 @@ func bstr2bb(bstr string) state {
 }
 
 // Print the definition os busybeaver, function only for evaluation
-func printbb(bb [][2]state) {
+func printbb(bb [][]state) {
 	fmt.Println("lenght: ", len(bb))
 	fmt.Println("capacity: ", cap(bb))
 	fmt.Println("bb: :", bb)
@@ -73,27 +74,28 @@ func printbb(bb [][2]state) {
 
 }
 
-func runbb(bb [][2]state, t tape) error {
+func runbb(bb [][]state, t *tape) error {
 	var s, ns int // Index of state in TuringMachine (busybeaver), s=actual state, ns=next state
-	var r byte    // byte read in tape
+	var r int     // byte read in tape, casting byte to int ;)
 	var e error
 
 	fmt.Println("BusyBeaver:")
 	printbb(bb)
 	fmt.Println("Initial tape is shown below: Note that head position at each step is marked by ^")
-	printt(t)
+	printt(*t)
 	fmt.Println("Game start:")
 
 	// Solve the mismatch between byte and int for use in the diferent structures and variables ;)
 
 	ns = 1
+	e = nil
 	for s = 1; s != 0; s = ns {
-		e = nil
-		r = readt(t)
-		writet(&t, bb[s][r].c_wr)
-		e = check(shiftt(&t, bb[s][r].shift))
+		r = int(readt(*t)) - 48 // 48 is ascii '0' code
+		writet(t, bb[r][s].c_wr)
+		e = check(shiftt(t, bb[r][s].shift))
+		printt(*t)
 		if e == nil {
-			ns = bb[s][r].nstate
+			ns = int(bb[r][s].nstate) - 48
 		} else {
 			ns = 0
 		}

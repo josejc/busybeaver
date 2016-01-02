@@ -10,9 +10,6 @@ func main() {
 	var t tape
 	var e error
 
-	x := [2][3]int{{1, 2, 3}, {4, 5, 6}}
-	fmt.Println(x)
-
 	newt(&t, LENGHT)
 	//printt(t)
 
@@ -33,14 +30,16 @@ func main() {
 	fmt.Printf("Read character: %c.\n", readt(t))
 	*/
 	// Code for implementation busybeavers and their execution
-	bb = newbb("tm1d")
+	bb = newbb("tm4")
 	//printbb(bb)
-	//bb = newbb("x")
-	//printbb(bb)
-	e = runbb(bb, &t)
-	if e != nil {
-		fmt.Println("ERROR: Tape too short")
+	if len(bb) != 0 {
+		e = runbb(bb, &t)
+		if e != nil {
+			fmt.Println("ERROR: Tape too short")
+		}
+		fmt.Println("Final tape config is:")
+		printt(t)
+	} else {
+		fmt.Println("ERROR: No busybeaver configured")
 	}
-	fmt.Println("Final tape config is:")
-	printt(t)
 }

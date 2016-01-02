@@ -71,10 +71,11 @@ func printbb(bb [][]state) {
 
 }
 
-func runbb(bb [][]state, t *tape) error {
+func runbb(bb [][]state, t *tape) (int, error) {
 	var s, ns int // Index of state in TuringMachine (busybeaver), s=actual state, ns=next state
 	var r int     // byte read in tape, casting byte to int ;)
 	var e error
+	var steps int // count the steps until busybeaver stop
 
 	fmt.Println("BusyBeaver:")
 	printbb(bb)
@@ -84,17 +85,19 @@ func runbb(bb [][]state, t *tape) error {
 
 	ns = 1
 	e = nil
+	steps = 0
 	for s = 1; s != 0; s = ns {
+		steps++
 		r = int(readt(*t)) - 48 // 48 is ascii '0' code
 		// fmt.Println("read:", r, "state:", s, "bb[s][r]:", bb[s][r])
 		writet(t, bb[s][r].c_wr)
 		e = check(shiftt(t, bb[s][r].shift))
-		printt(*t)
+		printtn(*t, steps)
 		if e == nil {
 			ns = int(bb[s][r].nstate) - 48
 		} else {
 			ns = 0
 		}
 	}
-	return e
+	return steps, e
 }

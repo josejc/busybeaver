@@ -50,6 +50,32 @@ func printt(tp tape) {
 	}
 }
 
+// Print tape with the step number
+func printtn(tp tape, s int) {
+	//fmt.Println("Tape lenght: ", len(tp.t))
+	if len(tp.t) != 0 {
+		//fmt.Println("Head position: ", tp.h)
+		fmt.Print(s, ":[")
+		for i := 0; i < len(tp.t); i++ {
+			if tp.t[i] == 0 {
+				fmt.Print(" ")
+			} else {
+				fmt.Printf("%c", tp.t[i])
+			}
+		}
+		fmt.Println("]")
+		fmt.Print(s, ":[")
+		for i := 0; i < tp.h; i++ {
+			fmt.Print(".")
+		}
+		fmt.Print("^")
+		for i := tp.h + 1; i < len(tp.t); i++ {
+			fmt.Print(".")
+		}
+		fmt.Println("]")
+	}
+}
+
 // Read character
 func readt(tp tape) byte {
 	return tp.t[tp.h]
@@ -85,6 +111,17 @@ func shiftt(tp *tape, shift byte) error {
 		return errors.New("ERROR: Don't move the head position")
 	}
 	return nil
+}
+
+func number1s(tp tape) int {
+
+	n := 0
+	for i := 0; i < len(tp.t); i++ {
+		if tp.t[i] == 49 {
+			n++
+		}
+	}
+	return n
 }
 
 // This helper will streamline our error checks below.

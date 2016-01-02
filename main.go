@@ -9,6 +9,7 @@ func main() {
 	var bb [][]state
 	var t tape
 	var e error
+	var s int
 
 	newt(&t, LENGHT)
 	//printt(t)
@@ -33,12 +34,13 @@ func main() {
 	bb = newbb("tm4")
 	//printbb(bb)
 	if len(bb) != 0 {
-		e = runbb(bb, &t)
+		s, e = runbb(bb, &t)
 		if e != nil {
 			fmt.Println("ERROR: Tape too short")
 		}
 		fmt.Println("Final tape config is:")
 		printt(t)
+		fmt.Println("Steps:", s, ",Number 1's:", number1s(t))
 	} else {
 		fmt.Println("ERROR: No busybeaver configured")
 	}
